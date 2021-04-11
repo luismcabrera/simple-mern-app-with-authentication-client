@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import AccountPage from '../pages/AccountPage';
 import UsersPage from '../pages/admin/UsersPage';
 import HomePage from '../pages/HomePage';
@@ -7,24 +7,23 @@ import NotFoundPage from '../pages/NotFoundPage';
 import ProjectPage from '../pages/ProjectPage';
 import ProjectsPage from '../pages/ProjectsPage';
 import RegisterPage from '../pages/RegisterPage';
-import Layout from '../components/layouts/Layout';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import roles from '../helpers/roles';
+import routes from '../helpers/routes';
 
 export default function AppRouter() {
 	return (
-		<Router>
-			<Layout>
-				<Switch>
-					<Route exact path="/" component={HomePage} />
-					<Route exact path="/login" component={LoginPage} />
-					<Route exact path="/register" component={RegisterPage} />
-					<Route exact path="/account" component={AccountPage} />
-					<Route exact path="/projects" component={ProjectsPage} />
-					<Route exact path="/project/:projectId" component={ProjectPage} />
-					<Route exact path="/admin/users" component={UsersPage} />
+		<Switch>
+			<PublicRoute exact path={routes.home} component={HomePage} />
+			<PublicRoute exact path={routes.login} component={LoginPage} />
+			<PublicRoute exact path={routes.register} component={RegisterPage} />
+			<PrivateRoute exact path={routes.account} component={AccountPage} />
+			<PrivateRoute exact path={routes.projects} component={ProjectsPage} />
+			<PrivateRoute exact path={routes.project()} component={ProjectPage} />
+			<PrivateRoute hasRole={roles.admin} exact path={routes.admin.users} component={UsersPage} />
 
-					<Route path="*" component={NotFoundPage} />
-				</Switch>
-			</Layout>
-		</Router>
+			<Route path="*" component={NotFoundPage} />
+		</Switch>
 	);
 }
