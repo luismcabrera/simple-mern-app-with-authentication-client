@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 
 	const login = (userCredentials, fromLocation) => {
-		setUser({ id: 1, role: roles.regular });
+		setUser({ id: 1, name: 'Luis', email: 'luis@gmail.com', role: roles.regular });
 		if (fromLocation) {
 			history.push(fromLocation);
 		}
